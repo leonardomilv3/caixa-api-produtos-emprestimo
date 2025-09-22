@@ -17,4 +17,16 @@ public class SimulacaoRequestDTO {
         return prazoMeses;
     }
 
+    public void setIdProduto(Long idProduto) {
+        this.idProduto = idProduto;
+    }
+
+    public void setValorSolicitado(Double valorSolicitado) {
+        this.valorSolicitado = valorSolicitado;
+    }
+
+    public void setPrazoMeses(Integer prazoMeses) {
+        this.prazoMeses = prazoMeses;
+    }
+
 }

@@ -20,6 +20,7 @@ public class SimulacaoService {
     private static final int SCALE_CURRENCY = 2;
 
     public Object simular(SimulacaoRequestDTO requestDTO) {
+        
         // validações
         if (requestDTO.getIdProduto() == null) {
             return new BadRequestDTO("é obrigatório informar o idProduto");
@@ -52,6 +53,7 @@ public class SimulacaoService {
         BigDecimal taxaMensal = pow(BigDecimal.ONE.add(taxaAnual, mc), BigDecimal.valueOf(1.0 / 12.0), mc)
                 .subtract(BigDecimal.ONE, mc);
 
+
         // Price: A = P * i / (1 - (1+i)^-n)
         BigDecimal i = taxaMensal;
         int n = prazoMeses;
@@ -59,6 +61,7 @@ public class SimulacaoService {
         BigDecimal denom = BigDecimal.ONE.subtract(pow(BigDecimal.ONE.add(i, mc), BigDecimal.valueOf(-n), mc), mc);
         BigDecimal parcela = numerator.divide(denom, SCALE_CURRENCY + 6, ROUNDING)
                 .setScale(SCALE_CURRENCY, ROUNDING);
+            
 
         // memória
         BigDecimal saldo = valorSolicitado.setScale(SCALE_CURRENCY, ROUNDING);

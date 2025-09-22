@@ -20,6 +20,7 @@ buildNumber.properties
 .vscode/
 .history/
 *.code-workspace
+.env
 
 
 # Arquivos de log / temporários
