@@ -35,16 +35,33 @@ DB_PASSWORD=<criar_passaword_db>
 1. Certifique-se de ter **Java 17+** e **Maven 3.8+** instalados.
 2. Extraia o ZIP do projeto.
 3. Crie o arquivo `.env` na raiz do projeto, com usuario (DB_USER) e senha (DB_PASSWORD), se já não tiver criado.
-4. Na raiz do projeto, execute:
+4. Exporte as variáveis do arquivo `.env`:
+
+No Linux:
+
+```bash
+export $(cat .env | xargs)
+```
+
+No Windows:
+
+```bash
+$env:DB_USER="user_banco"
+$env:DB_PASSWORD="password_banco"
+```
+
+
+5. Na raiz do projeto, execute:
 
 
 ```bash
+mvn compile
 mvn quarkus:dev
 ```
 
 O servidor subirá em `http://localhost:8080`.
 
-5. Acessando o Swagger / OpenAPI:
+6. Acessando o Swagger / OpenAPI:
 
 Após subir o projeto em modo dev, acesse:
 
@@ -72,4 +89,4 @@ java -jar target/quarkus-app/quarkus-run.jar
 
 - Simulação:
   - `POST /api/simulacoes`
-  
+
