@@ -1,10 +1,13 @@
 package com.caixa.emprestimo.resource;
 
+import com.caixa.emprestimo.dto.BadRequestDTO;
 import com.caixa.emprestimo.entity.Produto;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.transaction.Transactional;
+import com.caixa.emprestimo.service.ProdutoService;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
 import java.util.List;
 
 @Path("/api/produtos")
@@ -12,40 +15,50 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class ProdutoResource {
 
+    @Inject
+    ProdutoService produtoService;
+
     @GET
     public List<Produto> listAll() {
-        return Produto.listAll();
+        return produtoService.listarTodos();
     }
 
     @GET
     @Path("/{id}")
-    public Produto findById(@PathParam("id") Long id) {
-        return Produto.findById(id);
+    public Response findById(@PathParam("id") Long id) {
+        Object result = produtoService.buscarPorId(id);
+        if (result instanceof BadRequestDTO erro) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(erro).build();
+        }
+        return Response.ok(result).build();
     }
 
     @POST
-    @Transactional
-    public Produto create(Produto produto) {
-        produto.persist();
-        return produto;
+    public Response create(Produto produto) {
+        Object result = produtoService.criar(produto);
+        if (result instanceof BadRequestDTO erro) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(erro).build();
+        }
+        return Response.status(Response.Status.CREATED).entity(result).build();
     }
 
     @PUT
     @Path("/{id}")
-    @Transactional
-    public Produto update(@PathParam("id") Long id, Produto produto) {
-        Produto entity = Produto.findById(id);
-        entity.nome = produto.nome;
-        entity.taxaJurosAnual = produto.taxaJurosAnual;
-        entity.prazoMaximoMeses = produto.prazoMaximoMeses;
-        return entity;
+    public Response update(@PathParam("id") Long id, Produto produto) {
+        Object result = produtoService.atualizar(id, produto);
+        if (result instanceof BadRequestDTO erro) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(erro).build();
+        }
+        return Response.ok(result).build();
     }
 
     @DELETE
     @Path("/{id}")
-    @Transactional
-    public void delete(@PathParam("id") Long id) {
-        Produto entity = Produto.findById(id);
-        entity.delete();
+    public Response delete(@PathParam("id") Long id) {
+        Object result = produtoService.excluir(id);
+        if (result instanceof BadRequestDTO erro) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(erro).build();
+        }
+        return Response.ok(result).build();
     }
 }

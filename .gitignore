@@ -1,0 +1,42 @@
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/
+
+# Arquivos de log do Maven
+.mvn/*.log
+
+
+# Quarkus
+/.quarkus/
+.quarkus-artifacts.properties
+.quarkus/
+
+
+# VS Code
+.vscode/
+.history/
+*.code-workspace
+
+
+# Arquivos de log / temporários
+*.log
+*.tmp
+*.swp
+*.swo
+
+
+# Testes
+/surefire-reports/
+/failsafe-reports/
+/jacoco.exec
+
+
+
+# Outras ferramentas
+/.idea_modules/
+/.gradle/
+/build/
